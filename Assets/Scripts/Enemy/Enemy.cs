@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -7,27 +8,58 @@ public class Enemy : MonoBehaviour
     public Transform RealTarget;
     public static event Action OnDestroyEnemy;
 
-    public int HP = 100;
-    public int ATK;
+    //public int HP = 100;
+    //public int ATK;
 
     public ParticleSystem MuzzelFlash_ParticlaSystem;
     public ParticleSystem BulletShells_ParticleSystem;
     public ParticleSystem Traser_ParticleSystem;
 
+    public TextMeshProUGUI HPtxt; //UI 상에서 텍스트 필드를 가리킴
+    public TextMeshProUGUI ATKtxt;
+
+    Transform NearTarget = null;
+
+
+    //prop -> propfull tab tab
+    private int hp;
+    ///
+    public int HP
+    {
+        get { return hp; }
+        set { 
+            hp = value; 
+            HPtxt.text = hp.ToString();
+        }
+    }
+
+    private int atk;  //private lowercase
+    public int ATK
+    {
+        get { return atk; }
+        set { 
+            atk = value;
+            ATKtxt.text = ATK.ToString();
+        }
+    }
+
+    public void Prepare(GameObject[] target)
+    {
+       // NearTarget = NearestTarget.FindNearestTarget(gameObject, target).trasform;
+    }
 
     //ParticleSystem 정의 
     //헤더로 Enemy(Script)에 알아보기 쉽게
     [Header("Ps for Destroy")]
-    //정의한 후 추가할 파티클 드래그해서 추가
     public ParticleSystem Destroy_ParticleSystem;
 
     //Awake로 시작
     private void Awake()
     {
-        Destroy_ParticleSystem.Stop();          //처음에 Awake하고 Stop으로 제어
-        //MuzzelFlash_ParticlaSystem.Stop();
-        //BulletShells_ParticleSystem.Stop();
-        //Traser_ParticleSystem.Stop();
+        Destroy_ParticleSystem.Stop();
+        MuzzelFlash_ParticlaSystem.Stop();
+        BulletShells_ParticleSystem.Stop();
+        Traser_ParticleSystem.Stop();
     }
 
     public void CheckHP(int damage)
@@ -62,4 +94,5 @@ public class Enemy : MonoBehaviour
         gunbarrel.LookAt(RealTarget);
 
     }
+
 }

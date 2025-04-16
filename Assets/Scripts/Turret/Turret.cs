@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 
 public class Turret : MonoBehaviour
@@ -18,11 +19,32 @@ public class Turret : MonoBehaviour
     public ParticleSystem Traser_ParticleSystem;
 
     [Header("PS Destroy")]
-    public ParticleSystem Destroy_ParticleSystem;     
+    public ParticleSystem Destroy_ParticleSystem;
 
-   
-    public int HP;      // 생존력,  HP
-    public int ATK;  
+    public TextMeshProUGUI HPtxt; //UI 상에서 텍스트 필드를 가리킴
+    public TextMeshProUGUI ATKtxt;
+
+    private int hp;
+    public int HP
+    {
+        get { return hp; }
+        set { 
+            hp = value;
+            HPtxt.text = hp.ToString();
+
+        }
+    }
+
+    private int atk;
+    public int ATK
+    {
+        get { return atk; }
+        set { 
+            atk = value;
+            ATKtxt.text = atk.ToString();
+        }
+    }
+
     int BulletCount = 5;
     float lapTime = 0;
 

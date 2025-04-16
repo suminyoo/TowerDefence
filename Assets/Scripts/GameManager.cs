@@ -1,10 +1,9 @@
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class GameManager : MonoBehaviour
 {
-    public Enemy enemy;
-    public Turret turret;
-
     public GameObject enemyPrefab;
     public GameObject turretPrefab;
 
@@ -14,77 +13,96 @@ public class GameManager : MonoBehaviour
     public GameObject[] enemyObj = new GameObject[5];
     public GameObject[] turretObj = new GameObject[5];
 
-    public GameObject[] Obj = new GameObject[5];
 
     Enemy[] enemies = new Enemy[5];
-    Turret[] turrets = new Turret[5];   
+    Turret[] turrets = new Turret[5];
 
+    /// <summary>
+    /// canvas
+    /// render mode -> world space
+    /// reset
+    /// scale 0.001 0.001
+    /// ui canvas, image, text(textmashpro)
+    /// drag apply (propfull tab tab)
+    /// override
+    /// </summary>
+    /// 
     void Start()
     {
-            
-        Initialize();
-        //Initialize01(enemyObj, enemies, enemyPrefab);
-        //Initialize01(turretObj, turrets, turretPrefab);
+        //Initialize();
+        GameObject obj;
+        for (int i = 0; i < 5; i++)
+        {
+            obj = Initialize01(enemyPrefab);
+            enemyObj[i] = obj;
+            enemies[i] = obj.GetComponent<Enemy>();
+            obj = Initialize01(turretPrefab);
+            turretObj[i] = obj;
+            turrets[i] = obj.GetComponent<Turret>();
+        }
+
         Prepare();
 
+
     }
-    //void Initialize01(GameObject[] tmpObj, Enemy[] objects, GameObject tmpPrefab)
+
+    GameObject Initialize01(GameObject tmpPrefab)
+    {
+        int xPos = Random.Range(-30, 30);
+        int zPos = Random.Range(-30, 30);
+        Vector3 pos = new Vector3(xPos, 0, zPos);
+
+        GameObject obj = Instantiate(tmpPrefab, pos, Quaternion.identity);
+
+        obj.transform.position = pos;
+        obj.transform.SetParent(battleField.transform);
+
+        return obj;
+
+    }
+
+    //void Initialize( )
     //{
-    //    for (int i = 0; i< 5; i++)
+    //    for (int i = 0; i < 5; i++)
     //    {
     //        int xPos = Random.Range(-30, 30);
     //        int zPos = Random.Range(-30, 30);
     //        Vector3 pos = new Vector3(xPos, 0, zPos);
-
-    //        GameObject obj = Instantiate(tmpPrefab, pos, Quaternion.identity);
+    //        GameObject obj = Instantiate(enemyPrefab, pos, Quaternion.identity);
 
     //        obj.transform.position = pos;
     //        obj.transform.SetParent(battleField.transform);
-
-    //        tmpObj[i] = obj;
-    //        objects[i] = obj.GetComponent<Enemy>();
+    //        enemyObj[i] = obj;
+    //        enemies[i] = obj.GetComponent<Enemy>();
     //    }
+    //    for (int i = 0; i < 5; i++)
+    //    {
+    //        int xPos = Random.Range(-30, 30);
+    //        int zPos = Random.Range(-30, 30);
+    //        Vector3 pos = new Vector3(xPos, 0, zPos);
+    //        GameObject obj = Instantiate(turretPrefab, pos, Quaternion.identity);
 
+    //        obj.transform.position = pos;
+    //        obj.transform.SetParent(battleField.transform);
+    //        turretObj[i] = obj;
+    //        turrets[i] = obj.GetComponent<Turret>();
+    //    }
     //}
-
-
-    void Initialize( )
-    {
-        for (int i = 0; i < 5; i++)
-        {
-            int xPos = Random.Range(-30, 30);
-            int zPos = Random.Range(-30, 30);
-            Vector3 pos = new Vector3(xPos, 0, zPos);
-            GameObject obj = Instantiate(enemyPrefab, pos, Quaternion.identity);
-
-            obj.transform.position = pos;
-            obj.transform.SetParent(battleField.transform);
-            enemyObj[i] = obj;
-            enemies[i] = obj.GetComponent<Enemy>();
-        }
-        for (int i = 0; i < 5; i++)
-        {
-            int xPos = Random.Range(-30, 30);
-            int zPos = Random.Range(-30, 30);
-            Vector3 pos = new Vector3(xPos, 0, zPos);
-            GameObject obj = Instantiate(turretPrefab, pos, Quaternion.identity);
-
-            obj.transform.position = pos;
-            obj.transform.SetParent(battleField.transform);
-            turretObj[i] = obj;
-            turrets[i] = obj.GetComponent<Turret>();
-        }
-    }
 
 
     void Prepare()
     {
-        enemy.HP = Random.Range(100, 150);
-        turret.HP = Random.Range(100, 150);
-
-        enemy.ATK = Random.Range(100, 150);
-        turret.ATK = Random.Range(100, 150);
+        for (int i = 0; i < enemies.Length; i++ )
+        {
+            enemies[i].HP = Random.Range(100, 150);
+            enemies[i].ATK = Random.Range(100, 150);
+            //enemies[i].Prepare(enemyObj);
+        }
+        for (int i = 0; i < turrets.Length; i++)
+        {
+            turrets[i].HP = Random.Range(100, 150);
+            turrets[i].ATK = Random.Range(100, 150);
+            //turrets[i].Prepare(turretObj);
+        }
     }
-
-
 }
