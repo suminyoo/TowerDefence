@@ -5133,9 +5133,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gunbarrel: {fileID: 7072820575961624994}
   RealTarget: {fileID: 0}
-  MuzzelFlash_ParticlaSystem: {fileID: 0}
-  BulletShells_ParticleSystem: {fileID: 0}
-  Traser_ParticleSystem: {fileID: 0}
+  MuzzelFlash_ParticleSystem: {fileID: 8165998989138317016}
+  BulletShells_ParticleSystem: {fileID: 6862482519912265762}
+  Traser_ParticleSystem: {fileID: 9136670110135955637}
   HPtxt: {fileID: 3274001121524912029}
   ATKtxt: {fileID: 4856716172058672267}
   Destroy_ParticleSystem: {fileID: 8942688337370864455}

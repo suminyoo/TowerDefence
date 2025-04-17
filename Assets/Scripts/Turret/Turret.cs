@@ -11,7 +11,7 @@ public class Turret : MonoBehaviour
     public Transform RealTarget;
     public GatlingGun gatlingGun;
     
-    public UIManager _UIManager;
+    //public UIManager _UIManager;
     
     [Header("PS")]
     public ParticleSystem MuzzelFlash_ParticleSystem;
@@ -23,6 +23,11 @@ public class Turret : MonoBehaviour
 
     public TextMeshProUGUI HPtxt; //UI 상에서 텍스트 필드를 가리킴
     public TextMeshProUGUI ATKtxt;
+
+    Transform NearTarget = null;
+
+    int BulletCount = 5;
+    float lapTime = 0;
 
     private int hp;
     public int HP
@@ -45,14 +50,47 @@ public class Turret : MonoBehaviour
         }
     }
 
-    int BulletCount = 5;
-    float lapTime = 0;
+    
+    private void Awake()
+    {
+        Destroy_ParticleSystem.Stop();
+        MuzzelFlash_ParticleSystem.Stop();
+        BulletShells_ParticleSystem.Stop();
+        Traser_ParticleSystem.Stop();
+    }
+
+    public void Prepare(GameObject[] target)
+    {
+        NearTarget = NearestTarget.FindNearestTarget(gameObject, target).transform;
+    }
+    public void Begin()
+    {
+        MuzzelFlash_ParticleSystem.gameObject.SetActive(true);
+        MuzzelFlash_ParticleSystem.Play();
+        BulletShells_ParticleSystem.Play();
+        Traser_ParticleSystem.Play();
+    }
 
     private void Start()
     {
         Destroy_ParticleSystem.Stop();  
         gatlingGun.enabled = false;
         Invoke("DoSomething", 3);
+    }
+    private void Update()
+    {
+        lapTime += Time.deltaTime;  // 1초에 24실행, 0.22
+
+        if (lapTime > 1)
+        {
+            Fire();
+            lapTime = 0;
+        }
+        if (NearTarget != null)
+        {
+            gunbarrel.LookAt(NearTarget);
+
+        }
     }
 
     void DoSomething()
@@ -69,18 +107,6 @@ public class Turret : MonoBehaviour
             return;
         }
         BulletCount--;
-    }
-      
-    private void Update()
-    {
-        lapTime += Time.deltaTime;  // 1초에 24실행, 0.22
-
-        if(lapTime > 1)
-        { 
-            Fire();
-            lapTime = 0;
-        }
-        gunbarrel.LookAt(RealTarget);
     }
 
     public void Reload()
@@ -108,4 +134,8 @@ public class Turret : MonoBehaviour
             Destroy();
         
     }
+
+
+
+
 }

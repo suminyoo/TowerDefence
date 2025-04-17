@@ -8,17 +8,16 @@ public class Enemy : MonoBehaviour
     public Transform RealTarget;
     public static event Action OnDestroyEnemy;
 
-    //public int HP = 100;
-    //public int ATK;
-
-    public ParticleSystem MuzzelFlash_ParticlaSystem;
+    public ParticleSystem MuzzelFlash_ParticleSystem;
     public ParticleSystem BulletShells_ParticleSystem;
     public ParticleSystem Traser_ParticleSystem;
 
     public TextMeshProUGUI HPtxt; //UI 상에서 텍스트 필드를 가리킴
     public TextMeshProUGUI ATKtxt;
 
-    Transform NearTarget = null;
+    //[SerializeField]는 private을 보고 싶을때 사용
+
+    [SerializeField] Transform NearTarget = null;
 
 
     //prop -> propfull tab tab
@@ -43,24 +42,34 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    private void Awake()
+    {
+        Destroy_ParticleSystem.Stop();
+        MuzzelFlash_ParticleSystem.Stop();
+        BulletShells_ParticleSystem.Stop();
+        Traser_ParticleSystem.Stop();
+    }
+
     public void Prepare(GameObject[] target)
     {
-       // NearTarget = NearestTarget.FindNearestTarget(gameObject, target).trasform;
+
+        NearTarget = NearestTarget.FindNearestTarget(gameObject, target).transform;
+        
+        Debug.Log("Nearest Target: " + NearTarget.name);
+    }
+    public void Begin()
+    {
+        MuzzelFlash_ParticleSystem.gameObject.SetActive(true);
+        MuzzelFlash_ParticleSystem.Play();
+        BulletShells_ParticleSystem.Play();
+        Traser_ParticleSystem.Play();
     }
 
     //ParticleSystem 정의 
     //헤더로 Enemy(Script)에 알아보기 쉽게
     [Header("Ps for Destroy")]
     public ParticleSystem Destroy_ParticleSystem;
-
-    //Awake로 시작
-    private void Awake()
-    {
-        Destroy_ParticleSystem.Stop();
-        MuzzelFlash_ParticlaSystem.Stop();
-        BulletShells_ParticleSystem.Stop();
-        Traser_ParticleSystem.Stop();
-    }
+   
 
     public void CheckHP(int damage)
     {
@@ -72,13 +81,15 @@ public class Enemy : MonoBehaviour
         }
     }
 
+
+
+
     private void OnCollisionEnter(Collision bullet)
     {
         CheckHP(10);
         Debug.Log("OnCollisionEnter!!!!!" + bullet.gameObject.name);
     }
-
-
+    
     private void OnTriggerEnter(Collider other)
     {
         CheckHP(10);
@@ -87,11 +98,15 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A) )
+        //if (Input.GetKeyDown(KeyCode.A) )
+        //{
+        //    Destroy_ParticleSystem.Play();
+        //}
+        if (NearTarget != null)
         {
-            Destroy_ParticleSystem.Play();
+            gunbarrel.LookAt(NearTarget);
+
         }
-        gunbarrel.LookAt(RealTarget);
 
     }
 
