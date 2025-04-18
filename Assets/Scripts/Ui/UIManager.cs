@@ -37,5 +37,19 @@ public class UIManager : MonoBehaviour
         TotalEnemy = TotalEnemy - 1;
         _EnemyAmount.text = TotalEnemy.ToString();
     }   
+    public void GameAgain ()
+    {
+        //게임을 다시하는 로직
+        //GameManager에서 다시 Instantiate를 하면 됨
+        //과제1 터렛이나 적이 0이 되는 시점에서 panel을 on하기
+        //과제2 남아있는 적이나 터렛의 파티클 정지. 에너미 터렛 클레스에서 처리하기
+        //과제3 again 버튼 클릭시 게임 재시작 잔존하는 게임 오브젝트 전부 제거하고 
+        //GameManager에 어느 메서드를 실행하면 됨
+        //GameManager.Instantiate
+    }
+    public void Quit()
+    {
+
+    }
 
 }
