@@ -24,7 +24,8 @@ public class Turret : MonoBehaviour
     public TextMeshProUGUI HPtxt; //UI 상에서 텍스트 필드를 가리킴
     public TextMeshProUGUI ATKtxt;
 
-    Transform NearTarget = null;
+    [SerializeField] Transform NearTarget = null;
+
 
     int BulletCount = 5;
     float lapTime = 0;
@@ -122,12 +123,14 @@ public class Turret : MonoBehaviour
     void Destroy()
     {  
         transform.gameObject.SetActive(false);   // 사라짐.         
-        Destroy_ParticleSystem.Play();   
+        Destroy_ParticleSystem.Play();
+        Destroy(gameObject);
        
     }
 
     public void TakeDamage(int damage)
     {
+
         HP = HP - damage;
 
         if (HP <= 0)        

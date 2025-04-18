@@ -15,9 +15,9 @@ GameObject:
   - component: {fileID: 4783962231868671248}
   - component: {fileID: 1993084983992179536}
   - component: {fileID: 1628342462372835365}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Turret
-  m_TagString: Untagged
+  m_TagString: Turret
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -133,13 +133,13 @@ MonoBehaviour:
   gunbarrel: {fileID: 3214246338491455459}
   RealTarget: {fileID: 0}
   gatlingGun: {fileID: 6538174584042468660}
-  _UIManager: {fileID: 0}
   MuzzelFlash_ParticleSystem: {fileID: 7075333543451690214}
   BulletShells_ParticleSystem: {fileID: 382611194522479815}
   Traser_ParticleSystem: {fileID: 1489989259463950975}
   Destroy_ParticleSystem: {fileID: 1683108563408032943}
   HPtxt: {fileID: 4525039109240301844}
   ATKtxt: {fileID: 7906642995771909438}
+  NearTarget: {fileID: 0}
 --- !u!54 &1993084983992179536
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5302,6 +5302,7 @@ GameObject:
   - component: {fileID: 6795590878500168663}
   - component: {fileID: 1489989259463950975}
   - component: {fileID: 8779468749440649529}
+  - component: {fileID: 1681523426267659738}
   m_Layer: 0
   m_Name: Traser_ParticleSystem
   m_TagString: Untagged
@@ -10134,6 +10135,22 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &1681523426267659738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3035470942531897002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c353ca3ffd41b64ba0c6841578347d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particleSystem: {fileID: 1489989259463950975}
+  mask:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!1 &4326020713422885195
 GameObject:
   m_ObjectHideFlags: 0
@@ -10963,7 +10980,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6562317239058507972
 Transform:
   m_ObjectHideFlags: 0
@@ -21467,6 +21484,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: b46890100828db6429ff69c322b45893, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: b46890100828db6429ff69c322b45893, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 19800002, guid: b46890100828db6429ff69c322b45893, type: 3}

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -26,8 +27,9 @@ public class Enemy : MonoBehaviour
     public int HP
     {
         get { return hp; }
-        set { 
-            hp = value; 
+        set
+        {
+            hp = value;
             HPtxt.text = hp.ToString();
         }
     }
@@ -36,7 +38,8 @@ public class Enemy : MonoBehaviour
     public int ATK
     {
         get { return atk; }
-        set { 
+        set
+        {
             atk = value;
             ATKtxt.text = ATK.ToString();
         }
@@ -54,7 +57,7 @@ public class Enemy : MonoBehaviour
     {
 
         NearTarget = NearestTarget.FindNearestTarget(gameObject, target).transform;
-        
+
         Debug.Log("Nearest Target: " + NearTarget.name);
     }
     public void Begin()
@@ -69,7 +72,7 @@ public class Enemy : MonoBehaviour
     //헤더로 Enemy(Script)에 알아보기 쉽게
     [Header("Ps for Destroy")]
     public ParticleSystem Destroy_ParticleSystem;
-   
+
 
     public void CheckHP(int damage)
     {
@@ -77,19 +80,17 @@ public class Enemy : MonoBehaviour
         if (HP <= 0)
         {
             OnDestroyEnemy?.Invoke();
+            gameObject.SetActive(false);
             Destroy(gameObject);
         }
     }
-
-
-
 
     private void OnCollisionEnter(Collision bullet)
     {
         CheckHP(10);
         Debug.Log("OnCollisionEnter!!!!!" + bullet.gameObject.name);
     }
-    
+
     private void OnTriggerEnter(Collider other)
     {
         CheckHP(10);
@@ -104,10 +105,38 @@ public class Enemy : MonoBehaviour
         //}
         if (NearTarget != null)
         {
-            gunbarrel.LookAt(NearTarget);
-
+            LookAtTarget();
         }
+        else
+        {
+            FindNewTarget();
+        }
+
 
     }
 
+    private void LookAtTarget()
+    {
+        gunbarrel.LookAt(NearTarget);
+    }
+
+    private void FindNewTarget()
+    {
+        GameObject[] allObjects = GameObject.FindObjectsOfType<GameObject>(); //태그
+        List<GameObject> targets = new List<GameObject>();
+        //int enemyLayer = LayerMask.NameToLayer("Turret");
+
+        foreach (GameObject obj in allObjects)
+        {
+            if (obj.tag == "Turret")
+            {
+                targets.Add(obj);
+            }
+
+        }
+        if (targets.Count == 0) return;
+        Prepare(targets.ToArray());
+        LookAtTarget();
+
+    }
 }

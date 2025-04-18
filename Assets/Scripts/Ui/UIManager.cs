@@ -14,14 +14,14 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI _TurrentAmount;  // UI에텍스트 필드.   
     public TextMeshProUGUI _EnemyAmount;  // UI에 텍스트 필드.
     
-    public int TotalTurret=5;              //최초 터렛 갯수. 
-    public int TotalEnemy=5;              //최초 터렛 갯수. 
+    public int TotalTurret = 5;              //최초 터렛 갯수. 
+    public int TotalEnemy = 5;              //최초 터렛 갯수. 
 
    
     void Start()
     {       
         Turret.StaticDestroyEvent += OneTurretRemove;
-        Enemy.OnDestroyEnemy += OneEnemyRemove;
+        Enemy.OnDestroyEnemy += OneEnemyRemove; //등록 연산자 OnDestroyEnemy 이벤트 OneEnemyRemove 발생하면 실행하게 되어있음
 
         _EnemyAmount.text = TotalEnemy.ToString();
         _TurrentAmount.text = TotalTurret.ToString();

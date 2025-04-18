@@ -49,6 +49,8 @@ public class GameManager : MonoBehaviour
     //2x  0 ~ 30
     //2z 30 ~ -30
 
+    
+
     GameObject Initialize01(GameObject tmpPrefab)
     {
         int xPos = Random.Range(-30, 30);
