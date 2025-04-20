@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     Enemy[] enemies = new Enemy[5];
     Turret[] turrets = new Turret[5];
 
-
+    public UIManager manager;
 
     void Start()
     {
@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
 
     
 
-    void Initialize()
+    public void Initialize()
     {
         for (int i = 0; i < 5; i++)
         {
@@ -56,14 +56,14 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < enemies.Length; i++)
         {
-            enemies[i].HP = Random.Range(100, 150);
+            enemies[i].HP = Random.Range(100000, 150000);
             enemies[i].ATK = Random.Range(100, 150);
             enemies[i].Prefare(turretObj);
         }
 
         for (int i = 0; i < enemies.Length; i++)
         {
-            turrets[i].HP = UnityEngine.Random.Range(100, 150);
+            turrets[i].HP = UnityEngine.Random.Range(100000, 150000);
             turrets[i].ATK = UnityEngine.Random.Range(100, 150);
             turrets[i].Prefare(enemyObj);
         }
@@ -71,6 +71,7 @@ public class GameManager : MonoBehaviour
 
     void BeginGame()
     {
+        manager.panelStart.SetActive(false);
         for (int i = 0; i < enemies.Length; i++)
         {
             enemies[i].Begin();
@@ -81,7 +82,7 @@ public class GameManager : MonoBehaviour
     
     private void Update()
     {
-
+        manager.startButton.onClick.AddListener(BeginGame);
         if (Input.GetKeyDown(KeyCode.P))
         {
             Prefare();

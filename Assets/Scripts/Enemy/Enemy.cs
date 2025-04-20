@@ -110,8 +110,13 @@ public class Enemy : MonoBehaviour
         }
     }
 
-   
-    
+    public void StopShooting()
+    {
+        MuzzelFlash_ParticleSystem.Stop();
+        BulletShells_ParticleSystem.Stop();
+        Traser_ParticleSystem.Stop();
+    }
+
 
 
 }

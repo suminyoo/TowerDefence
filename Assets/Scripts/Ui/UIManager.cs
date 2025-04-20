@@ -1,5 +1,7 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+using static UnityEngine.GraphicsBuffer;
 
 //오늘 과제:  터렛과 에너미가 교전하는 로직 구현. 
 //  로직으로 승패 결정하기. 랜덤으로 HP, 설정, 살상력 Damage  
@@ -17,14 +19,35 @@ public class UIManager : MonoBehaviour
     public int TotalTurret=5;              //최초 터렛 갯수. 
     public int TotalEnemy=5;              //최초 터렛 갯수. 
 
-   
+    public GameObject panelStart;
+    public GameObject panelResult;
+
+    public Button startButton;
+    public Button quitButtton;
+    public Button againButton;
+
+    public GameManager gameManager;
+
+
     void Start()
-    {       
+    {
+        panelStart.SetActive(true);
+        panelResult.SetActive(false);
         Turret.StaticDestroyEvent += OneTurretRemove;
         Enemy.OnDestroyEnemy += OneEnemyRemove;
 
         _EnemyAmount.text = TotalEnemy.ToString();
         _TurretAmount.text = TotalTurret.ToString();
+    }
+
+    private void Update()
+    {
+        if (TotalTurret ==  0 || TotalEnemy == 0)
+        {
+            GameResult();
+        }
+        againButton.onClick.AddListener(GameAgain);
+        quitButtton.onClick.AddListener(GameQuit);
     }
 
     public void OneTurretRemove()
@@ -36,9 +59,29 @@ public class UIManager : MonoBehaviour
     {
         TotalEnemy = TotalEnemy - 1;
         _EnemyAmount.text = TotalEnemy.ToString();
-    }   
-    public void GameAgain ()
+    }
+
+    public void GameResult ()
     {
+        panelResult.SetActive(true);
+        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Turret"))
+        {
+            Turret turret = obj.GetComponent<Turret>();
+            if (turret != null)
+            {
+                turret.StopShooting();
+            }
+
+        }
+        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
+        {
+            Enemy enemy = obj.GetComponent<Enemy>();
+            if (enemy != null)
+            {
+                enemy.StopShooting();
+            }
+        }
+        
         //게임을 다시하는 로직
         //GameManager에서 다시 Instantiate를 하면 됨
         //과제1 터렛이나 적이 0이 되는 시점에서 panel을 on하기
@@ -47,7 +90,14 @@ public class UIManager : MonoBehaviour
         //GameManager에 어느 메서드를 실행하면 됨
         //GameManager.Instantiate
     }
-    public void Quit()
+    public void GameAgain()
+    {
+        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Turret")) Destroy(obj);
+        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy")) Destroy(obj);
+        gameManager.Initialize();
+
+    }
+    public void GameQuit()
     {
         Application.Quit();
     }
