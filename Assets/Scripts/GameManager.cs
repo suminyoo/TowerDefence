@@ -19,13 +19,12 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         Initialize();
-       
 
     }
 
     
 
-    public void Initialize()
+    void Initialize()
     {
         for (int i = 0; i < 5; i++)
         {
@@ -52,7 +51,7 @@ public class GameManager : MonoBehaviour
             turrets[i] = obj.GetComponent<Turret>();
         }
     }
-    void Prefare()
+    void Prepare()
     {
         for (int i = 0; i < enemies.Length; i++)
         {
@@ -85,7 +84,7 @@ public class GameManager : MonoBehaviour
         manager.startButton.onClick.AddListener(BeginGame);
         if (Input.GetKeyDown(KeyCode.P))
         {
-            Prefare();
+            Prepare();
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
@@ -95,7 +94,6 @@ public class GameManager : MonoBehaviour
         {
             for (int i = 0; i < enemies.Length; i++)
             {
-               
                 enemies[i].LoatAtTarget();
                    // Prefare(turretObj);
             }
@@ -108,8 +106,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    
+    public void RestartGame()
+    {
+        Initialize();
+        Prepare();
+        BeginGame();
+    }
 
-    
+
 
 }

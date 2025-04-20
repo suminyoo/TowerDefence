@@ -263,6 +263,13 @@ MonoBehaviour:
   _EnemyAmount: {fileID: 349141427}
   TotalTurret: 5
   TotalEnemy: 5
+  panelStart: {fileID: 501961544}
+  panelResult: {fileID: 1841113452}
+  startButton: {fileID: 1669959295}
+  quitButtton: {fileID: 497240900}
+  againButton: {fileID: 1250864159}
+  gameManager: {fileID: 340572864}
+  G: {fileID: 340572862}
 --- !u!4 &118897111 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: e15f5af5b5f07bd469b5f4f98ed23c39,
@@ -505,6 +512,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  manager: {fileID: 93603571}
 --- !u!1 &349141425
 GameObject:
   m_ObjectHideFlags: 0
@@ -1032,6 +1040,42 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 497240898}
   m_CullTransparentMesh: 1
+--- !u!1 &501961544
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 501961545}
+  m_Layer: 0
+  m_Name: PanelStart
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &501961545
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 501961544}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1669959294}
+  m_Father: {fileID: 1708792949}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &588673643
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2316,7 +2360,7 @@ GameObject:
   - component: {fileID: 1669959296}
   - component: {fileID: 1669959295}
   m_Layer: 0
-  m_Name: Button
+  m_Name: StartButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2329,13 +2373,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1669959293}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 387742270}
-  m_Father: {fileID: 1831946833}
+  m_Father: {fileID: 501961545}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2525,6 +2569,7 @@ RectTransform:
   m_Children:
   - {fileID: 1831946833}
   - {fileID: 1841113453}
+  - {fileID: 501961545}
   m_Father: {fileID: 93603570}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2684,7 +2729,6 @@ RectTransform:
   m_Children:
   - {fileID: 622106303}
   - {fileID: 971790377}
-  - {fileID: 1669959294}
   m_Father: {fileID: 1708792949}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2742,7 +2786,7 @@ GameObject:
   - component: {fileID: 1841113455}
   - component: {fileID: 1841113454}
   m_Layer: 0
-  m_Name: PanelWinLose
+  m_Name: PanelResult
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

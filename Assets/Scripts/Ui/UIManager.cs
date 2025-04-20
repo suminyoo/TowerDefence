@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static UnityEngine.GraphicsBuffer;
 
@@ -81,7 +82,7 @@ public class UIManager : MonoBehaviour
                 enemy.StopShooting();
             }
         }
-        
+
         //게임을 다시하는 로직
         //GameManager에서 다시 Instantiate를 하면 됨
         //과제1 터렛이나 적이 0이 되는 시점에서 panel을 on하기
@@ -90,16 +91,37 @@ public class UIManager : MonoBehaviour
         //GameManager에 어느 메서드를 실행하면 됨
         //GameManager.Instantiate
     }
+
+
+    public GameObject G;
+
     public void GameAgain()
     {
-        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Turret")) Destroy(obj);
-        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy")) Destroy(obj);
-        gameManager.Initialize();
+        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Turret"))
+        {
+            Destroy(obj);
+            Debug.Log("Destroy" + obj.name);
 
+        }
+        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
+        {
+            Destroy(obj);
+            Debug.Log("Destroy" + obj.name);
+
+        }
+
+        Debug.Log("GameAgain");
+
+
+        ///?
     }
+
     public void GameQuit()
     {
         Application.Quit();
+        Debug.Log("GAME QUIT");
+
+
     }
 
 }
