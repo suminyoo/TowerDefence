@@ -6,7 +6,9 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public Transform gunbarrel;
-    public static event Action OnDestroyEnemy;
+    public static event Action OnDestroyEnemy; 
+    //모든 참조 찾기로 어디서 받는지 알 수 있음
+
     public TextMeshProUGUI HPtxt;
     public TextMeshProUGUI ATKtxt;
 
@@ -116,6 +118,8 @@ public class Enemy : MonoBehaviour
         BulletShells_ParticleSystem.Stop();
         Traser_ParticleSystem.Stop();
     }
+
+    
 
 
 

@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -10,118 +11,110 @@ using static UnityEngine.GraphicsBuffer;
 // Damage    (40, 200)  
 // 
 
-
-
 public class UIManager : MonoBehaviour
 {
+    public static event Action OnGameEndEvent; //fire and forget
+    public static event Action OnGameAgainEvent;
+    public static event Action OnGameStartEvent;
+
+    //각각의 클래스는 각자의 역할을 해야하기 때문에 이 이벤트는 게임매니저로 날려줄거임
+
+    [Header("Text")]
     public TextMeshProUGUI _TurretAmount;  // UI에텍스트 필드.   
     public TextMeshProUGUI _EnemyAmount;  // UI에 텍스트 필드.
-    
-    public int TotalTurret=5;              //최초 터렛 갯수. 
-    public int TotalEnemy=5;              //최초 터렛 갯수. 
+    public TextMeshProUGUI winnerText;
 
+    [Header("Obj")]
     public GameObject panelStart;
     public GameObject panelResult;
 
+    [Header("Button")]
     public Button startButton;
     public Button quitButtton;
     public Button againButton;
 
-    public GameManager gameManager;
+    private int totalTurret;
+    public int TotalTurret
+    {
+        get { return totalTurret; }
+        set { 
+            totalTurret = value;
+            _TurretAmount.text = TotalTurret.ToString();
+        }
+    }
+
+    private int totalEnemy;
+    public int TotalEnemy
+    {
+        get { return totalEnemy; }
+        set { 
+            totalEnemy = value;
+            _EnemyAmount.text = TotalEnemy.ToString();
+        }
+    }
+
 
 
     void Start()
     {
+        totalEnemy = 5;
+        totalTurret = 5;
+
         panelStart.SetActive(true);
         panelResult.SetActive(false);
-        Turret.StaticDestroyEvent += OneTurretRemove;
+
+        Turret.StaticDestroyEvent += OneTurretRemove;  //이벤트를 듣고 함수실행
         Enemy.OnDestroyEnemy += OneEnemyRemove;
 
-        _EnemyAmount.text = TotalEnemy.ToString();
-        _TurretAmount.text = TotalTurret.ToString();
-    }
-
-    private void Update()
-    {
-        if (TotalTurret ==  0 || TotalEnemy == 0)
-        {
-            GameResult();
-        }
         againButton.onClick.AddListener(GameAgain);
         quitButtton.onClick.AddListener(GameQuit);
+        startButton.onClick.AddListener(GameStart);
+
     }
 
     public void OneTurretRemove()
     {
-        TotalTurret = TotalTurret - 1; 
-        _TurretAmount.text = TotalTurret.ToString();  
+        TotalTurret = TotalTurret - 1;
+        if (TotalTurret <= 0)
+        {
+            winnerText.text = "Enemy Win";
+            panelResult.SetActive(true);
+            OnGameEndEvent?.Invoke();
+
+        }
     }
     public void OneEnemyRemove()
     {
         TotalEnemy = TotalEnemy - 1;
-        _EnemyAmount.text = TotalEnemy.ToString();
+        if (TotalEnemy <= 0)
+        {
+            winnerText.text = "Turret Win";
+            panelResult.SetActive(true);
+            OnGameEndEvent?.Invoke(); //이벤트 발생함수 Invoke
+
+        }
     }
 
-    public void GameResult ()
+    public void GameStart()
     {
-        panelResult.SetActive(true);
-        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Turret"))
-        {
-            Turret turret = obj.GetComponent<Turret>();
-            if (turret != null)
-            {
-                turret.StopShooting();
-            }
+        OnGameStartEvent?.Invoke();
+        panelStart.SetActive(false);
 
-        }
-        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
-        {
-            Enemy enemy = obj.GetComponent<Enemy>();
-            if (enemy != null)
-            {
-                enemy.StopShooting();
-            }
-        }
-
-        //게임을 다시하는 로직
-        //GameManager에서 다시 Instantiate를 하면 됨
-        //과제1 터렛이나 적이 0이 되는 시점에서 panel을 on하기
-        //과제2 남아있는 적이나 터렛의 파티클 정지. 에너미 터렛 클레스에서 처리하기
-        //과제3 again 버튼 클릭시 게임 재시작 잔존하는 게임 오브젝트 전부 제거하고 
-        //GameManager에 어느 메서드를 실행하면 됨
-        //GameManager.Instantiate
     }
-
-
-    public GameObject G;
-
     public void GameAgain()
     {
-        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Turret"))
-        {
-            Destroy(obj);
-            Debug.Log("Destroy" + obj.name);
+        TotalTurret = 5;
+        TotalEnemy = 5;
+        OnGameAgainEvent?.Invoke();
+        panelResult.SetActive(false);
+        Debug.Log("GAME AGAIN");
 
-        }
-        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
-        {
-            Destroy(obj);
-            Debug.Log("Destroy" + obj.name);
-
-        }
-
-        Debug.Log("GameAgain");
-
-
-        ///?
     }
 
     public void GameQuit()
     {
         Application.Quit();
         Debug.Log("GAME QUIT");
-
-
     }
 
 }
