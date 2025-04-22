@@ -1,163 +1,21 @@
 using System;
-using System.Collections.Generic;
-using TMPro;
-using UnityEngine;
 
-public class Turret : MonoBehaviour
+public class Turret : BaseItem
 {
-    public TextMeshProUGUI HPtxt;
-    public TextMeshProUGUI ATKtxt;
-
     public static event Action StaticDestroyEvent;
-    public        event Action NotStaticDestroyEvent;
-    
-    public Transform gunbarrel;
-    public Transform NearTarget;
-    
-    
-    
-    [Header("PS")]
-    public ParticleSystem MuzzelFlash_ParticleSystem;
-    public ParticleSystem BulletShells_ParticleSystem;
-    public ParticleSystem Traser_ParticleSystem;
+    //child class 에서 각각 선언 static 이니까
+    //부모에서 선언해서 자식에서 invoke해줄 수는 없음
+    //부모에서 invoke해서 자식에서 이벤트 실행은 가능
 
-    [Header("PS Destroy")]
-    public ParticleSystem Destroy_ParticleSystem;
-
-    private int hp;
-
-    public int HP
+    public override void FindNewTarget()
     {
-        get { return hp; }
-        set
-        {
-            hp = value;
-
-            HPtxt.text = hp.ToString();
-        }
+        Target = "Enemy";
+        base.FindNewTarget();
     }
-
-    private int atk;
-
-    public int ATK
-    {
-        get { return atk; }
-        set
-        {
-            atk = value;
-
-            ATKtxt.text = atk.ToString();
-        }
-    }
-
-    int BulletCount = 5;
-    float lapTime = 0;
-   
-    private void Awake()
-    {
-        Destroy_ParticleSystem.Stop();
-        MuzzelFlash_ParticleSystem.Stop();
-        BulletShells_ParticleSystem.Stop();
-        Traser_ParticleSystem.Stop();
-    }
-    public void Initialize()
-    {      
-        Invoke("DoSomething", 3);
-    }
-    public void Begin()
-    {
-        DoSomething();
-    }
-    public void Prefare(GameObject[] targets)
-    {
-        NearTarget = NearestTarget.FindNearestTarget(gameObject, targets).transform;
-    }
-    public  void FindNewTarget()
-    {
-        GameObject[] allObjects = GameObject.FindObjectsOfType<GameObject>();
-        List<GameObject> targets = new List<GameObject>();
-
-        int enemyLayer = LayerMask.NameToLayer("Enemy");
-
-        foreach (GameObject obj in allObjects)
-        {
-            if (obj.tag == "Enemy")
-            {
-                targets.Add(obj);
-            }
-        }
-        if (targets.Count == 0) return;
-        Prefare(targets.ToArray());
-        LoatAtTarget();
-    }
-    public void LoatAtTarget()
-    {
-        gunbarrel.LookAt(NearTarget);
-    }
-    void DoSomething()
-    {
-        MuzzelFlash_ParticleSystem.Play();
-        BulletShells_ParticleSystem.Play();
-        Traser_ParticleSystem.Play();
-    }
-
-    public void Fire()
-    {
-        if (BulletCount <= 0)
-        {
-            Reload();
-            return;
-        }
-        BulletCount--;
-    }
-      
-    private void Update()
-    {
-        lapTime += Time.deltaTime;  // 1초에 24실행, 0.22
-
-        if(lapTime > 1)
-        { 
-            Fire();
-            lapTime = 0;
-        }
-
-
-        if (NearTarget == null)
-        {
-            FindNewTarget();
-        }
-    }
-
-    public void Reload()
-    {
-        MuzzelFlash_ParticleSystem.Stop();
-        BulletShells_ParticleSystem.Stop();
-        Traser_ParticleSystem.Stop();
-
-        BulletCount = 5;
-        Invoke("DoSomething", 3);
-    }
-
-    void Destroy()
+    public override void Destroy()
     {
         StaticDestroyEvent?.Invoke();
-        transform.gameObject.SetActive(false);   // 사라짐.         
-        Destroy(gameObject);
+        base.Destroy();
     }
 
-    public void TakeDamage(int damage)
-    {
-        HP = HP - damage;
-
-        if (HP <= 0)        
-            Destroy();
-        
-    }
-
-    public void StopShooting()
-    {
-        MuzzelFlash_ParticleSystem.Stop();
-        BulletShells_ParticleSystem.Stop();
-        Traser_ParticleSystem.Stop();
-    }
 }

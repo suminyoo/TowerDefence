@@ -1,17 +1,8 @@
-using System.Collections.Generic;
 using UnityEngine;
-using System;
-using TMPro;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using static UnityEngine.GraphicsBuffer;
 
 
 public class GameManager : MonoBehaviour
 {
-
-
     public GameObject enemyPrefab;
     public GameObject turretPrefab;
     public GameObject battleField;
@@ -29,8 +20,6 @@ public class GameManager : MonoBehaviour
         UIManager.OnGameAgainEvent += UIManager_OnGameAgainEvent;
         UIManager.OnGameEndEvent += UIManager_OnGameEndEvent;
         UIManager.OnGameStartEvent += UIManager_OnGameStartEvent;
-
-
 
         //이벤트와 리스너, 퍼블리셔와 섭스크라이버
         //OnGameAgainEvent 이벤트 발생시 UIManager_OnGameAgainEvent 실행
@@ -54,7 +43,6 @@ public class GameManager : MonoBehaviour
 
     private void UIManager_OnGameAgainEvent()
     {
-
         StopShooting();
         DestroyAll();
         Initialize();
@@ -130,13 +118,13 @@ public class GameManager : MonoBehaviour
         {
             for (int i = 0; i < enemies.Length; i++)
             {
-                enemies[i].LoatAtTarget();
+                enemies[i].LookAtTarget();
                    // Prefare(turretObj);
             }
 
             for (int i = 0; i < enemies.Length; i++)
             {
-                turrets[i].LoatAtTarget();
+                turrets[i].LookAtTarget();
                 //turrets[i].Prefare(enemyObj);
             }
         }

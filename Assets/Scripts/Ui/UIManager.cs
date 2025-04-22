@@ -1,9 +1,7 @@
 using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using static UnityEngine.GraphicsBuffer;
 
 //오늘 과제:  터렛과 에너미가 교전하는 로직 구현. 
 //  로직으로 승패 결정하기. 랜덤으로 HP, 설정, 살상력 Damage  
@@ -65,6 +63,10 @@ public class UIManager : MonoBehaviour
 
         Turret.StaticDestroyEvent += OneTurretRemove;  //이벤트를 듣고 함수실행
         Enemy.OnDestroyEnemy += OneEnemyRemove;
+        //static으로 선언되었기때문에 인스턴스없이 부를 수 있음
+
+
+
 
         againButton.onClick.AddListener(GameAgain);
         quitButtton.onClick.AddListener(GameQuit);
