@@ -7,7 +7,7 @@ public class Enemy : BaseItem
 
     public override void FindNewTarget()
     {
-        Target = "Turret";
+        TargetTagName = "Turret";
         base.FindNewTarget();
     }
 

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 
@@ -27,6 +28,7 @@ public class GameManager : MonoBehaviour
 
         Initialize();
         Prepare();
+        //StartCoroutine(SampleCor());
 
     }
 
@@ -43,13 +45,51 @@ public class GameManager : MonoBehaviour
 
     private void UIManager_OnGameAgainEvent()
     {
+    Again();
+    }
+
+    public IEnumerator Again()
+    {
+        //Coroutine 필요. 로직상문제는 없지만 함수가 겹쳐서 버그가날 수 있음
+        //Coroutine으로 순차적인 실행을 보장 StartCoroutine(SampleCor()); 의 형태
+        //yield return null;
         StopShooting();
+        yield return null;
         DestroyAll();
+        yield return null;
         Initialize();
+        yield return null;
         Prepare();
+        yield return null;
         BeginGame();
     }
 
+
+    IEnumerator SampleCor () //Coroutine Cor로 이름넣어줌
+    {
+        PlayA();
+        yield return null; 
+        PlayB();
+        yield return null;
+        PlayC();
+        yield return new WaitForSeconds(3); //3초
+        PlayD();
+    }
+    private void PlayA()
+    {
+        Debug.Log("PlayA");
+    }
+    private void PlayB()
+    {
+        Debug.Log("PlayB");
+    }
+    private void PlayC()
+    {
+        Debug.Log("PlayC");
+    }
+    private void PlayD() {
+        Debug.Log("PlayD");
+    }
 
     void Initialize()
     {
@@ -84,14 +124,14 @@ public class GameManager : MonoBehaviour
         {
             enemies[i].HP = UnityEngine.Random.Range(100, 150);
             enemies[i].ATK = UnityEngine.Random.Range(100, 150);
-            enemies[i].Prefare(turretObj);
+            enemies[i].Prepare(turretObj);
         }
 
         for (int i = 0; i < enemies.Length; i++)
         {
             turrets[i].HP = UnityEngine.Random.Range(100, 150);
             turrets[i].ATK = UnityEngine.Random.Range(100, 150);
-            turrets[i].Prefare(enemyObj);
+            turrets[i].Prepare(enemyObj);
         }
     }
 
@@ -134,7 +174,6 @@ public class GameManager : MonoBehaviour
     {
         foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Turret"))
         {
-
             Destroy(obj);
             Debug.Log("Destroy" + obj.name);
 

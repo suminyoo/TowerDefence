@@ -6,14 +6,13 @@ using System;
 
 public class BaseItem : MonoBehaviour
 {
-    private String target;
+    private string targetTagName;
 
-    public String Target
+    public string TargetTagName
     {
-        get { return target; }
-        set { target = value; }
+        get { return targetTagName; }
+        set { targetTagName = value; }
     }
-
 
     public TextMeshProUGUI HPtxt;
     public TextMeshProUGUI ATKtxt;
@@ -78,27 +77,17 @@ public class BaseItem : MonoBehaviour
         DoSomething();
     }
 
-    public void Prefare(GameObject[] targets)
+    public void Prepare(GameObject[] targets)
     {
         NearTarget = NearestTarget.FindNearestTarget(gameObject, targets).transform;
     }
    
     public virtual void FindNewTarget()
     {
-        GameObject[] allObjects = FindObjectsOfType<GameObject>();
-        List<GameObject> targets = new List<GameObject>();
-
-        //int enemyLayer = LayerMask.NameToLayer("Enemy");
-
-        foreach (GameObject obj in allObjects)
-        {
-            if (obj.tag == target)
-            {
-                targets.Add(obj);
-            }
-        }
-        if (targets.Count == 0) return;
-        Prefare(targets.ToArray());
+        GameObject[] targets = GameObject.FindGameObjectsWithTag(targetTagName);
+ 
+        if (targets.Length == 0) return;
+        Prepare(targets);
         LookAtTarget();
     }
  

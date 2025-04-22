@@ -61,12 +61,9 @@ public class UIManager : MonoBehaviour
         panelStart.SetActive(true);
         panelResult.SetActive(false);
 
-        Turret.StaticDestroyEvent += OneTurretRemove;  //이벤트를 듣고 함수실행
+        Turret.OnDestroyTurret += OneTurretRemove;  //이벤트를 듣고 함수실행
         Enemy.OnDestroyEnemy += OneEnemyRemove;
         //static으로 선언되었기때문에 인스턴스없이 부를 수 있음
-
-
-
 
         againButton.onClick.AddListener(GameAgain);
         quitButtton.onClick.AddListener(GameQuit);
