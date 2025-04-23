@@ -1,9 +1,15 @@
 using System.Collections;
 using UnityEngine;
-
+using System;
 
 public class GameManager : MonoBehaviour
 {
+    public static event Action<string> OnWinnerEvent;
+
+    public static event Action<int> OneEnemyUICountChangeEvent;
+    public static event Action<int> OneTurretUICountChangeEvent;
+
+    [Header("GameObject")]
     public GameObject enemyPrefab;
     public GameObject turretPrefab;
     public GameObject battleField;
@@ -14,13 +20,29 @@ public class GameManager : MonoBehaviour
     Enemy[] enemies = new Enemy[5];
     Turret[] turrets = new Turret[5];
 
-    public UIManager manager;
+    private int totalTurret;
+
+    public int TotalTurret
+    {
+        get { return totalTurret; }
+        set { totalTurret = value;}
+    }
+
+    private int totalEnemy;
+    public int TotalEnemy
+    {
+        get { return totalEnemy; }
+        set { totalEnemy = value; }
+    }
 
     void Start()
     {
-        UIManager.OnGameAgainEvent += UIManager_OnGameAgainEvent;
-        UIManager.OnGameEndEvent += UIManager_OnGameEndEvent;
-        UIManager.OnGameStartEvent += UIManager_OnGameStartEvent;
+        UIManager.OnGameAgainEvent += GameAgain;
+        UIManager.OnGameStartEvent += GameStart;
+        UIManager.OnGameEndEvent += GameQuit;
+
+        Turret.OnDestroyTurret += OneTurretRemove;  //이벤트를 듣고 함수실행
+        Enemy.OnDestroyEnemy += OneEnemyRemove;
 
         //이벤트와 리스너, 퍼블리셔와 섭스크라이버
         //OnGameAgainEvent 이벤트 발생시 UIManager_OnGameAgainEvent 실행
@@ -32,23 +54,17 @@ public class GameManager : MonoBehaviour
 
     }
 
-    private void UIManager_OnGameStartEvent()
+    private void GameStart()
     {
         BeginGame();
     }
-
-    private void UIManager_OnGameEndEvent()
+    private void GameAgain()
     {
-        StopShooting();
-        DestroyAll();
+        //코루틴 실행 함수 Cor로 이름도 넣어줌
+        StartCoroutine(AgainCor());
     }
 
-    private void UIManager_OnGameAgainEvent()
-    {
-    Again();
-    }
-
-    public IEnumerator Again()
+    public IEnumerator AgainCor()
     {
         //Coroutine 필요. 로직상문제는 없지만 함수가 겹쳐서 버그가날 수 있음
         //Coroutine으로 순차적인 실행을 보장 StartCoroutine(SampleCor()); 의 형태
@@ -61,38 +77,16 @@ public class GameManager : MonoBehaviour
         yield return null;
         Prepare();
         yield return null;
+        //yield return new WaitForSeconds(3); //3초
         BeginGame();
-    }
-
-
-    IEnumerator SampleCor () //Coroutine Cor로 이름넣어줌
-    {
-        PlayA();
-        yield return null; 
-        PlayB();
-        yield return null;
-        PlayC();
-        yield return new WaitForSeconds(3); //3초
-        PlayD();
-    }
-    private void PlayA()
-    {
-        Debug.Log("PlayA");
-    }
-    private void PlayB()
-    {
-        Debug.Log("PlayB");
-    }
-    private void PlayC()
-    {
-        Debug.Log("PlayC");
-    }
-    private void PlayD() {
-        Debug.Log("PlayD");
     }
 
     void Initialize()
     {
+        TotalEnemy = 5;
+        TotalTurret = 5;
+        OneEnemyUICountChangeEvent?.Invoke(TotalEnemy);
+        OneTurretUICountChangeEvent?.Invoke(TotalTurret);
         for (int i = 0; i < 5; i++)
         {
             int xPos = UnityEngine.Random.Range(-20, 20);
@@ -159,13 +153,11 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < enemies.Length; i++)
             {
                 enemies[i].LookAtTarget();
-                   // Prefare(turretObj);
             }
 
             for (int i = 0; i < enemies.Length; i++)
             {
                 turrets[i].LookAtTarget();
-                //turrets[i].Prefare(enemyObj);
             }
         }
     }
@@ -176,36 +168,53 @@ public class GameManager : MonoBehaviour
         {
             Destroy(obj);
             Debug.Log("Destroy" + obj.name);
-
         }
         foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
         {
             Destroy(obj);
             Debug.Log("Destroy" + obj.name);
         }
-
-
     }
-
     public void StopShooting()
     {
         foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Turret"))
         {
             Turret turret = obj.GetComponent<Turret>();
-            if (turret != null)
-            {
-                turret.StopShooting();
-            }
-
+            if (turret != null) turret.StopShooting();
         }
         foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
         {
             Enemy enemy = obj.GetComponent<Enemy>();
-            if (enemy != null)
-            {
-                enemy.StopShooting();
-            }
+            if (enemy != null) enemy.StopShooting();
         }
     }
-
+    public void OneTurretRemove()
+    {
+        TotalTurret = TotalTurret - 1;
+        OneTurretUICountChangeEvent?.Invoke(TotalTurret);
+        if (TotalTurret <= 0)
+        {
+            Debug.Log("TotalTurret:" + TotalTurret);
+            OnWinnerEvent?.Invoke("Enemy Win");
+            StopShooting();
+            DestroyAll();
+        }
+    }
+    public void OneEnemyRemove()
+    {
+        TotalEnemy = TotalEnemy - 1;
+        OneEnemyUICountChangeEvent?.Invoke(TotalEnemy);
+        if (TotalEnemy <= 0)
+        {
+            Debug.Log("TotalEnemy:" + TotalEnemy);
+            OnWinnerEvent?.Invoke("Turret Win");
+            StopShooting();
+            DestroyAll();
+        }
+    }
+    public void GameQuit()
+    {
+        Application.Quit();
+        Debug.Log("GAME QUIT");
+    }
 }

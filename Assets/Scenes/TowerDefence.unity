@@ -264,6 +264,7 @@ MonoBehaviour:
   winnerText: {fileID: 1983853860}
   panelStart: {fileID: 501961544}
   panelResult: {fileID: 1841113452}
+  panelTurret: {fileID: 1762487290}
   startButton: {fileID: 1669959295}
   quitButtton: {fileID: 497240900}
   againButton: {fileID: 1250864159}
@@ -584,7 +585,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  manager: {fileID: 93603571}
 --- !u!1 &349141425
 GameObject:
   m_ObjectHideFlags: 0

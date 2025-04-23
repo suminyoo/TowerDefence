@@ -25,73 +25,42 @@ public class UIManager : MonoBehaviour
     [Header("Obj")]
     public GameObject panelStart;
     public GameObject panelResult;
+    public GameObject panelTurret;
 
     [Header("Button")]
     public Button startButton;
     public Button quitButtton;
     public Button againButton;
 
-    private int totalTurret;
-    public int TotalTurret
-    {
-        get { return totalTurret; }
-        set { 
-            totalTurret = value;
-            _TurretAmount.text = TotalTurret.ToString();
-        }
-    }
-
-    private int totalEnemy;
-    public int TotalEnemy
-    {
-        get { return totalEnemy; }
-        set { 
-            totalEnemy = value;
-            _EnemyAmount.text = TotalEnemy.ToString();
-        }
-    }
-
-
-
     void Start()
     {
-        totalEnemy = 5;
-        totalTurret = 5;
-
+        panelTurret.SetActive(false);
         panelStart.SetActive(true);
         panelResult.SetActive(false);
 
-        Turret.OnDestroyTurret += OneTurretRemove;  //이벤트를 듣고 함수실행
-        Enemy.OnDestroyEnemy += OneEnemyRemove;
-        //static으로 선언되었기때문에 인스턴스없이 부를 수 있음
+        GameManager.OneEnemyUICountChangeEvent += OneEnemyCountChangeUI;
+        GameManager.OneTurretUICountChangeEvent += OneTurretCountChangeUI;
+
+        GameManager.OnWinnerEvent += WinnerUI;
 
         againButton.onClick.AddListener(GameAgain);
         quitButtton.onClick.AddListener(GameQuit);
         startButton.onClick.AddListener(GameStart);
-
     }
 
-    public void OneTurretRemove()
-    {
-        TotalTurret = TotalTurret - 1;
-        if (TotalTurret <= 0)
-        {
-            winnerText.text = "Enemy Win";
-            panelResult.SetActive(true);
-            OnGameEndEvent?.Invoke();
 
-        }
+    public void OneTurretCountChangeUI(int count)
+    {
+        _TurretAmount.text = count.ToString();
     }
-    public void OneEnemyRemove()
+    public void OneEnemyCountChangeUI(int count)
     {
-        TotalEnemy = TotalEnemy - 1;
-        if (TotalEnemy <= 0)
-        {
-            winnerText.text = "Turret Win";
-            panelResult.SetActive(true);
-            OnGameEndEvent?.Invoke(); //이벤트 발생함수 Invoke
-
-        }
+        _EnemyAmount.text = count.ToString();
+    }
+    public void WinnerUI(string winText)
+    {
+        winnerText.text = winText;
+        panelResult.SetActive(true);
     }
 
     public void GameStart()
@@ -102,8 +71,6 @@ public class UIManager : MonoBehaviour
     }
     public void GameAgain()
     {
-        TotalTurret = 5;
-        TotalEnemy = 5;
         OnGameAgainEvent?.Invoke();
         panelResult.SetActive(false);
         Debug.Log("GAME AGAIN");
@@ -112,8 +79,7 @@ public class UIManager : MonoBehaviour
 
     public void GameQuit()
     {
-        Application.Quit();
-        Debug.Log("GAME QUIT");
+        OnGameEndEvent?.Invoke();
     }
 
 }
