@@ -126,9 +126,11 @@ public class BaseItem : MonoBehaviour
     public void TakeDamage(int damage)
     {
         HP = HP - damage;
-
         if (HP <= 0)
+        {
+
             Destroy();
+        }
     }
 
     public void StopShooting()
@@ -140,6 +142,7 @@ public class BaseItem : MonoBehaviour
    
     public virtual void Destroy() //virtual 선언으로 child가 override할 수 있게
     {
+        //Destroy_ParticleSystem.Play();
         transform.gameObject.SetActive(false);      
         Destroy(gameObject);
     }

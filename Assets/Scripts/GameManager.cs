@@ -1,9 +1,18 @@
 using System.Collections;
 using UnityEngine;
 using System;
+using UnityEngine.Splines;
+
+//과제 월드 spline 3개 이상만들고
+//에너미 프리팹에 spline animate 추가해서 생성과 동시에 애니메이션 되게 하기 코루틴
+//Spline spline;
 
 public class GameManager : MonoBehaviour
 {
+    public Spline route1;
+    public Spline route2;
+    public Spline route3;
+
     public static event Action<string> OnWinnerEvent;
 
     public static event Action<int> OneEnemyUICountChangeEvent;
@@ -37,6 +46,9 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+
+        
+
         UIManager.OnGameAgainEvent += GameAgain;
         UIManager.OnGameStartEvent += GameStart;
         UIManager.OnGameEndEvent += GameQuit;
@@ -87,6 +99,7 @@ public class GameManager : MonoBehaviour
         TotalTurret = 5;
         OneEnemyUICountChangeEvent?.Invoke(TotalEnemy);
         OneTurretUICountChangeEvent?.Invoke(TotalTurret);
+
         for (int i = 0; i < 5; i++)
         {
             int xPos = UnityEngine.Random.Range(-20, 20);
@@ -96,6 +109,7 @@ public class GameManager : MonoBehaviour
 
             obj.transform.position = pos;
             obj.transform.SetParent(battleField.transform);
+            
             enemyObj[i] = obj;
             enemies[i] = obj.GetComponent<Enemy>();
         }

@@ -15,6 +15,7 @@ public class Turret : BaseItem
     public override void Destroy()
     {
         OnDestroyTurret?.Invoke();
+
         base.Destroy();
     }
 
