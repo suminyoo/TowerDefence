@@ -31,7 +31,7 @@ public class NearestTarget : MonoBehaviour
             Debug.Log("Nearest Target: " + nearestTarget.name);
         }
     }
-    public static GameObject  FindNearestTarget(GameObject selt, GameObject[] targets)
+    public static GameObject FindNearestTarget(GameObject selt, GameObject[] targets)
     {
         GameObject nearestTarget;
 

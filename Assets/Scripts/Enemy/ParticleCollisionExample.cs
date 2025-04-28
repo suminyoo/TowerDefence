@@ -6,6 +6,7 @@ public class ParticleCollisionExample : MonoBehaviour
     public LayerMask mask;  
     void Start()
     {
+        //mask로 특정 레이어에만 피격할 수 있게 
         var collision = myps.collision;
         collision.enabled = true;
         collision.type = ParticleSystemCollisionType.World;
@@ -14,11 +15,9 @@ public class ParticleCollisionExample : MonoBehaviour
 
     void OnParticleCollision(GameObject other)
     {
-        
-
         // 적이 피격되었나를 어떻게 판단할까? 
         // 적이 피격 혹은 옆에 있는 건물이 피격 될 수도 있으니까.
-        // 
+        
         if (other.GetComponent<Enemy>())
         {
             Debug.Log("Enemy hit");

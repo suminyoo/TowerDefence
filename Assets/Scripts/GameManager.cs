@@ -5,13 +5,16 @@ using UnityEngine.Splines;
 
 public class GameManager : MonoBehaviour
 {
-
+    //
     public GameObject enemyPrefab;
     public GameObject turretPrefab;
     public GameObject battleField;
 
     public GameObject[] turretObj = new GameObject[5];
     public GameObject[] enemyObj = new GameObject[5];
+    public float EnemyInterval = 5.0f;
+
+
     [SerializeField] UIManager mainUI;
     Enemy[] enemies = new Enemy[5];
     Turret[] turrets = new Turret[5];
@@ -23,8 +26,11 @@ public class GameManager : MonoBehaviour
     int TotalTurret;
     void Start()
     {
-        Turret.StaticDestroyEvent += Turret_StaticDestroyEvent;
+        Turret.OnDestroyTurret += Turret_OnDestroyTurret;
         Enemy.OnDestroyEnemy += Enemy_OnDestroyEnemy;
+
+        //static으로 하지 않고 인스턴스화 해서 줌 static과 차이점
+        //UIManager.OnGameEndEventStatic += UIManager_OnGameEndEvent
         mainUI.OnGameEndEvent += UIManager_OnGameEndEvent;
         mainUI.OnGameAgainEvent += UIManager_OnGameAgainEvent;
 
@@ -33,8 +39,9 @@ public class GameManager : MonoBehaviour
         TotalTurret = 5;
         mainUI.TotalEnemy = TotalEnemy;
         mainUI.TotalTurret = TotalTurret;
-     StartCoroutine(Initialize());
-        //Prefare();
+        StartCoroutine(Initialize());
+
+
     }
 
     private void Enemy_OnDestroyEnemy()
@@ -44,18 +51,16 @@ public class GameManager : MonoBehaviour
         if (TotalEnemy <= 0)
         {
             mainUI.ShowWinLosePanel("Turret");
-
         }
     }
 
-    private void Turret_StaticDestroyEvent()
+    private void Turret_OnDestroyTurret()
     {
         TotalTurret--;
         mainUI.TotalTurret = TotalTurret;
         if (TotalTurret <= 0)
         {
             mainUI.ShowWinLosePanel("Enemy");
-
         }
     }
 
@@ -68,7 +73,7 @@ public class GameManager : MonoBehaviour
         mainUI.TotalEnemy = TotalEnemy;
         mainUI.TotalTurret = TotalTurret;
         StartCoroutine(Initialize());
-        Prefare();
+        Prepare();
     }
 
     void ClearBattleField()
@@ -76,7 +81,6 @@ public class GameManager : MonoBehaviour
         int numChildren = battleField.transform.childCount;
         for (int i = numChildren - 1; i > 0; i--)
             GameObject.Destroy(battleField.transform.GetChild(i).gameObject);
-
     }
 
     void CeaseFire()
@@ -116,7 +120,9 @@ public class GameManager : MonoBehaviour
             enemyObj[i] = obj;
             enemies[i] = obj.GetComponent<Enemy>();
             obj.GetComponent<SplineAnimate>().StartOffset = Random.Range(0, 1);
-            yield return new WaitForSeconds(0.5f);
+
+            //터렛의 순차적인 생성을 위해 코루틴 사용
+            yield return new WaitForSeconds(EnemyInterval);
         }
         for (int i = 0; i < 5; i++)
         {
@@ -131,20 +137,20 @@ public class GameManager : MonoBehaviour
             turrets[i] = obj.GetComponent<Turret>();
         }
     }
-    void Prefare()
+    void Prepare()
     {
         for (int i = 0; i < enemies.Length; i++)
         {
             enemies[i].HP = Random.Range(100, 150);
             enemies[i].ATK = Random.Range(100, 150);
-            enemies[i].Prefare(turretObj);
+            enemies[i].Prepare(turretObj);
         }
 
         for (int i = 0; i < enemies.Length; i++)
         {
             turrets[i].HP = Random.Range(100, 150);
             turrets[i].ATK = Random.Range(100, 150);
-            turrets[i].Prefare(enemyObj);
+            turrets[i].Prepare(enemyObj);
         }
     }
 

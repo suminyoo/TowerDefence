@@ -5590,7 +5590,6 @@ MonoBehaviour:
   MuzzelFlash_ParticleSystem: {fileID: 6618261652683424640}
   BulletShells_ParticleSystem: {fileID: 1504640040294533490}
   Traser_ParticleSystem: {fileID: 7166714822283108853}
-  targetTag: Turret
   targetType: 1
 --- !u!54 &233374248043911764
 Rigidbody:
@@ -5636,9 +5635,9 @@ MonoBehaviour:
   m_PlayOnAwake: 1
   m_LoopMode: 1
   m_Method: 0
-  m_Duration: 15
-  m_MaxSpeed: 43.43043
-  m_EasingMode: 3
+  m_Duration: 35
+  m_MaxSpeed: 9.306521
+  m_EasingMode: 0
   m_AlignmentMode: 3
   m_ObjectForwardAxis: 2
   m_ObjectUpAxis: 1

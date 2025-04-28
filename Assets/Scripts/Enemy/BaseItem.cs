@@ -19,7 +19,7 @@ public class BaseItem :MonoBehaviour
      public ParticleSystem Traser_ParticleSystem;
 
      Transform NearTarget = null;
-    [SerializeField] string targetTag;
+    //[SerializeField] string targetTag;
     [SerializeField] ItemType targetType;
 
     private int hp;
@@ -53,14 +53,10 @@ public class BaseItem :MonoBehaviour
     }
     private void Start()
     {
-      //  Begin();
+        // Begin();
 
     }
-    public void Initialize()
-    {
-
-    }
-    public void Prefare(GameObject[] targets)
+    public void Prepare(GameObject[] targets)
     {
         //NearTarget = NearestTarget.FindNearestTarget(gameObject, targets).transform;
     }
@@ -79,7 +75,6 @@ public class BaseItem :MonoBehaviour
         if (NearTarget==null) return;
 
         MuzzelFlash_ParticleSystem.Play();
-
         BulletShells_ParticleSystem.Play();
         Traser_ParticleSystem.Play();
         Invoke("CeaseFire", 5);
@@ -103,9 +98,9 @@ public class BaseItem :MonoBehaviour
     {
         
     }
+
     public virtual void Explode()
     {
-
         gameObject.SetActive(false);
         Destroy(gameObject);
         
