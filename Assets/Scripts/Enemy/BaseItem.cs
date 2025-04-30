@@ -7,8 +7,10 @@ public enum ItemType
     Turret
 
 }
+
 public class BaseItem :MonoBehaviour
 {
+
      public TextMeshProUGUI ATKtxt;
      public TextMeshProUGUI HPtxt;
      public Transform gunbarrel;
@@ -49,7 +51,9 @@ public class BaseItem :MonoBehaviour
 
     private void Awake()
     {
-        CeaseFire();
+        MuzzelFlash_ParticleSystem.Stop();
+        BulletShells_ParticleSystem.Stop();
+        Traser_ParticleSystem.Stop();
     }
     private void Start()
     {
@@ -77,14 +81,14 @@ public class BaseItem :MonoBehaviour
         MuzzelFlash_ParticleSystem.Play();
         BulletShells_ParticleSystem.Play();
         Traser_ParticleSystem.Play();
-        Invoke("CeaseFire", 5);
+        Invoke("CeaseFire", Random.Range(2, 6));
     }
    public void CeaseFire()
     {
         MuzzelFlash_ParticleSystem.Stop();
         BulletShells_ParticleSystem.Stop();
         Traser_ParticleSystem.Stop();
-        Invoke("OpenFire", 3);
+        Invoke("OpenFire", Random.Range(2, 6));
 
     }
 

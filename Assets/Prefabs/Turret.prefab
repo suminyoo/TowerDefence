@@ -10727,6 +10727,7 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 8
+  baseItem: {fileID: 2551483968928519674}
 --- !u!1 &5545178059464517336
 GameObject:
   m_ObjectHideFlags: 0
@@ -15824,7 +15825,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 19.5, y: 52.5}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5034207609523844529
@@ -16001,7 +16002,7 @@ MonoBehaviour:
   MuzzelFlash_ParticleSystem: {fileID: 8389967989692617487}
   BulletShells_ParticleSystem: {fileID: 4381670106395042594}
   Traser_ParticleSystem: {fileID: 4977658223434495405}
-  targetTag: Enemy
+  targetType: 0
 --- !u!205 &956118172648233052
 LODGroup:
   m_ObjectHideFlags: 0
@@ -16148,7 +16149,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 63}
+  m_AnchoredPosition: {x: 19.5, y: 0.000038147}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8799648200315212509

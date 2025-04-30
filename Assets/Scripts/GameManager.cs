@@ -5,7 +5,7 @@ using UnityEngine.Splines;
 
 public class GameManager : MonoBehaviour
 {
-    //
+    
     public GameObject enemyPrefab;
     public GameObject turretPrefab;
     public GameObject battleField;
@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
         mainUI.TotalEnemy = TotalEnemy;
         if (TotalEnemy <= 0)
         {
-            mainUI.ShowWinLosePanel("Turret");
+            mainUI.ShowWinLosePanel("Turret Win");
         }
     }
 
@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
         mainUI.TotalTurret = TotalTurret;
         if (TotalTurret <= 0)
         {
-            mainUI.ShowWinLosePanel("Enemy");
+            mainUI.ShowWinLosePanel("Enemy Win");
         }
     }
 
@@ -72,8 +72,13 @@ public class GameManager : MonoBehaviour
         TotalTurret = 5;
         mainUI.TotalEnemy = TotalEnemy;
         mainUI.TotalTurret = TotalTurret;
+
         StartCoroutine(Initialize());
-        Prepare();
+    }
+    private void UIManager_OnGameEndEvent()
+    {
+        CeaseFire();
+        ClearBattleField();
     }
 
     void ClearBattleField()
@@ -100,11 +105,6 @@ public class GameManager : MonoBehaviour
     }
 
 
-    private void UIManager_OnGameEndEvent()
-    {
-        CeaseFire();
-        ClearBattleField();
-    }
 
     IEnumerator Initialize()
     {
@@ -136,26 +136,33 @@ public class GameManager : MonoBehaviour
             turretObj[i] = obj;
             turrets[i] = obj.GetComponent<Turret>();
         }
+        Prepare();
     }
     void Prepare()
     {
         for (int i = 0; i < enemies.Length; i++)
         {
-            enemies[i].HP = Random.Range(100, 150);
-            enemies[i].ATK = Random.Range(100, 150);
-            enemies[i].Prepare(turretObj);
+            enemies[i].HP = Random.Range(1000, 1500);
+            enemies[i].ATK = Random.Range(10, 30);
         }
 
-        for (int i = 0; i < enemies.Length; i++)
+        for (int i = 0; i < turrets.Length; i++)
         {
-            turrets[i].HP = Random.Range(100, 150);
-            turrets[i].ATK = Random.Range(100, 150);
-            turrets[i].Prepare(enemyObj);
+            turrets[i].HP = Random.Range(1000, 1500);
+            turrets[i].ATK = Random.Range(10, 30);
         }
+        mainUI.ShowStartBtn(true);
     }
 
     public void StartGame()
     {
+        mainUI.ShowStartBtn(false) ;
+
+        for (int i = 0; i < enemies.Length; i++)
+        {
+            turrets[i].Begin();
+            enemies[i].Begin();
+        }
         
     }
 

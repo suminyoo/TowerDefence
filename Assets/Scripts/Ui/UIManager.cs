@@ -1,6 +1,8 @@
 using System;
+using System.Diagnostics;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -12,7 +14,8 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI _EnemyAmount;  // UI에 텍스트 필드.
     public GameObject _panelMain;
     public GameObject _panelWinLose;
-    public TextMeshProUGUI _winnerIs;          
+    public TextMeshProUGUI _winnerIs;
+    public Button _StartBtn;
 
     private int totalTurret;
     public int TotalTurret
@@ -36,6 +39,7 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
+        ShowStartBtn(false);
         _panelWinLose.gameObject.SetActive(false);
     }
 
@@ -45,14 +49,24 @@ public class UIManager : MonoBehaviour
         _panelWinLose.gameObject.SetActive(true);
     }
 
+    public void ShowStartBtn(bool boo)
+    {
+        _StartBtn.gameObject.SetActive(boo);
+        //_startBtn.enabled = boo; //버튼 비활성화 할 수 있음
+    }
+
     public void Again()
-    {       
+    {
+        ShowStartBtn(false);
+       
         _panelWinLose.gameObject.SetActive(false);
+        
         OnGameAgainEvent?.Invoke();
     }
 
     public void Quit()
     {
+        OnGameEndEvent?.Invoke();
         Application.Quit();
     }
 }
