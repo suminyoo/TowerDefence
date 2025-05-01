@@ -1,9 +1,9 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
-//¿À´Ã °úÁ¦. 1.  ºñÁÖ¾ó ½ºÆ©µð¿À ¿¡ ÀÖ´Â git  »ìÆìº¸±â.
-// 2. Ãæµ¹ÁöÁ¡¿¡¼­ ÀÌÆåÀ» ÇÃ·¹ÀÌ.   --Ä¿ÇÁ¸µ ¹æ½Ä    µðÀÚÀÌ³Ê°¡ Å×½ºÆ®ÇÒ ¼ö ÀÖµµ·Ï ÇÏ±âÀ§ÇØ 
-// 3. Ãæµ¹ÁöÁ¡¿¡¼­ ÀÌÆåÀ» ÇÃ·¹ÀÌ.   --µðÄ¿ÇÁ¸µ ¹æ½Ä  ¼±È£ÇÏ°Ô µÇÁö¸¶. µðÀÚÀÌ³Ê´Â ÀÌ°É ¾î·Á¿öÇÑ´Ù. 
-// 4. ¿ùµå ²Ù¹Ì±â ( Å¸¿ö°¡ ¹èÄ¡µÇ ¿ùµå ²Ù¹Ì±â)   ¿¡¼¼  
+//ì˜¤ëŠ˜ ê³¼ì œ. 1.  ë¹„ì£¼ì–¼ ìŠ¤íŠœë””ì˜¤ ì— ìžˆëŠ” git  ì‚´íŽ´ë³´ê¸°.
+// 2. ì¶©ëŒì§€ì ì—ì„œ ì´íŽ™ì„ í”Œë ˆì´.   --ì»¤í”„ë§ ë°©ì‹    ë””ìžì´ë„ˆê°€ í…ŒìŠ¤íŠ¸í•  ìˆ˜ ìžˆë„ë¡ í•˜ê¸°ìœ„í•´ 
+// 3. ì¶©ëŒì§€ì ì—ì„œ ì´íŽ™ì„ í”Œë ˆì´.   --ë””ì»¤í”„ë§ ë°©ì‹  ì„ í˜¸í•˜ê²Œ ë˜ì§€ë§ˆ. ë””ìžì´ë„ˆëŠ” ì´ê±¸ ì–´ë ¤ì›Œí•œë‹¤. 
+// 4. ì›”ë“œ ê¾¸ë¯¸ê¸° ( íƒ€ì›Œê°€ ë°°ì¹˜ë˜ ì›”ë“œ ê¾¸ë¯¸ê¸°)   ì—ì„¸  
 
 public class FireProjectile : MonoBehaviour
 {    
@@ -19,7 +19,7 @@ public class FireProjectile : MonoBehaviour
             Fire();
         }
     }
-    //´Ù¸¥ ¹æ½Äµµ Å×½ºÆ® ÇØ º¾½Ã´Ù.  ÀÌÇØÇÏ±â  transform
+    //ë‹¤ë¥¸ ë°©ì‹ë„ í…ŒìŠ¤íŠ¸ í•´ ë´…ì‹œë‹¤.  ì´í•´í•˜ê¸°  transform
     void Fire()
     {
         Rigidbody p = Instantiate(fireRigidbody, firePoint.position, firePoint.rotation);    

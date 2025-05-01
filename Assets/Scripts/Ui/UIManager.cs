@@ -1,41 +1,72 @@
+using System;
+using System.Diagnostics;
 using TMPro;
 using UnityEngine;
-
-//오늘 과제:  터렛과 에너미가 교전하는 로직 구현. 
-//  로직으로 승패 결정하기. 랜덤으로 HP, 설정, 살상력 Damage  
-// HP random (90,  100)   
-// Damage    (40, 200)  
-// 
-
-
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    public TextMeshProUGUI _TurrentAmount;  // UI에텍스트 필드.   
+    public event Action OnGameEndEvent;
+    public event Action OnGameAgainEvent;
+    //public static event Action OnGameEndEventStatic; static이면 UIManager.event로 부를 수 있음
+
+    public TextMeshProUGUI _TurretAmount;  // UI에 텍스트 필드.   
     public TextMeshProUGUI _EnemyAmount;  // UI에 텍스트 필드.
-    
-    public int TotalTurret = 5;              //최초 터렛 갯수. 
-    public int TotalEnemy = 5;              //최초 터렛 갯수. 
+    public GameObject _panelMain;
+    public GameObject _panelWinLose;
+    public TextMeshProUGUI _winnerIs;
+    public Button _StartBtn;
 
-   
+    private int totalTurret;
+    public int TotalTurret
+    {
+        get { return totalTurret; }
+        set { totalTurret = value;
+
+            _TurretAmount.text = TotalTurret.ToString();
+        }
+    }
+    private int totalEnemy;
+    public int TotalEnemy
+    {
+        get { return totalEnemy; }
+        set { totalEnemy = value;
+
+            _EnemyAmount.text = TotalEnemy.ToString();
+            
+        }
+    }
+
     void Start()
-    {       
-        Turret.StaticDestroyEvent += OneTurretRemove;
-        Enemy.OnDestroyEnemy += OneEnemyRemove; //등록 연산자 OnDestroyEnemy 이벤트 OneEnemyRemove 발생하면 실행하게 되어있음
-
-        _EnemyAmount.text = TotalEnemy.ToString();
-        _TurrentAmount.text = TotalTurret.ToString();
+    {
+        ShowStartBtn(false);
+        _panelWinLose.gameObject.SetActive(false);
     }
 
-    public void OneTurretRemove()
+    public void ShowWinLosePanel(string winner)
     {
-        TotalTurret = TotalTurret - 1; 
-        _TurrentAmount.text = TotalTurret.ToString();  
+        _winnerIs.text = winner;
+        _panelWinLose.gameObject.SetActive(true);
     }
-    public void OneEnemyRemove()
-    {
-        TotalEnemy = TotalEnemy - 1;
-        _EnemyAmount.text = TotalEnemy.ToString();
-    }   
 
+    public void ShowStartBtn(bool boo)
+    {
+        _StartBtn.gameObject.SetActive(boo);
+        //_startBtn.enabled = boo; //버튼 비활성화 할 수 있음
+    }
+
+    public void Again()
+    {
+        ShowStartBtn(false);
+       
+        _panelWinLose.gameObject.SetActive(false);
+        
+        OnGameAgainEvent?.Invoke();
+    }
+
+    public void Quit()
+    {
+        OnGameEndEvent?.Invoke();
+        Application.Quit();
+    }
 }
