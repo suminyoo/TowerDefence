@@ -1,24 +1,29 @@
 using UnityEngine;
+using System;
 
 public class Drag3D : MonoBehaviour
 {
+    public static event Action OnTopViewEvent;
+    public static event Action OnSideViewEvent;
+
     private Vector3 offset;
     private float zCoord;
 
     void OnMouseDown()
     {
+        //OnTopViewEvent?.Invoke();
         zCoord = Camera.main.WorldToScreenPoint(transform.position).z;
         offset = transform.position - GetMouseWorldPos();
     }
     private void OnMouseUp()
     {
+        //OnSideViewEvent?.Invoke();
         transform.position = GetMouseWorldPos() + offset;
     }
 
     void OnMouseDrag()
     {
         
-
         transform.position = GetMouseWorldPos() + offset;
     }
 
