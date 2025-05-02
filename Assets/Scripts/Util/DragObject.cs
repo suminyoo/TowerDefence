@@ -1,5 +1,5 @@
-
 using UnityEngine;
+using System;
 
 public class DragObject : MonoBehaviour
 {
@@ -15,6 +15,7 @@ public class DragObject : MonoBehaviour
 
     void OnMouseDown()
     {
+
         isDragging = true;
         zCoord = cam.WorldToScreenPoint(transform.position).z;
     }

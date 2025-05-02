@@ -19,9 +19,7 @@ public class Arrangement : MonoBehaviour
 
     private void Start()
     {
-        Drag3D.OnTopViewEvent += MoveCamaraToTopView;
-        Drag3D.OnSideViewEvent += RestoreCameraPositionAndRotation;
-
+        
 
         SaveCameraPositionAndRotation();
         //방법1 가볍지만 수정이 불편

@@ -15938,8 +15938,7 @@ GameObject:
   - component: {fileID: 2551483968928519674}
   - component: {fileID: 956118172648233052}
   - component: {fileID: 7924410666704099460}
-  - component: {fileID: 3520271277117867756}
-  - component: {fileID: 4168194683560960044}
+  - component: {fileID: 2629357105225186854}
   m_Layer: 6
   m_Name: Turret
   m_TagString: Turret
@@ -15956,7 +15955,7 @@ Transform:
   m_GameObject: {fileID: 6791573989743330687}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.83, y: 0, z: 8}
+  m_LocalPosition: {x: 228.27412, y: -32.12599, z: 0.0000038146973}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -16070,7 +16069,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
---- !u!114 &3520271277117867756
+--- !u!114 &2629357105225186854
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -16079,21 +16078,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 6791573989743330687}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67c8ad21ee6fe904dbd55f4031e3198a, type: 3}
+  m_Script: {fileID: 11500000, guid: 14ad5000d0526b944b8fb738d2070f18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4168194683560960044
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6791573989743330687}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67c8ad21ee6fe904dbd55f4031e3198a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  floorLayer:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1 &6819016504208318236
 GameObject:
   m_ObjectHideFlags: 0
