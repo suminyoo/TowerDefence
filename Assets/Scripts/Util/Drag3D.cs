@@ -1,12 +1,15 @@
 using UnityEngine;
+using System;
 
 public class Drag3D : MonoBehaviour
 {
+
     private Vector3 offset;
     private float zCoord;
 
     void OnMouseDown()
     {
+        
         zCoord = Camera.main.WorldToScreenPoint(transform.position).z;
         offset = transform.position - GetMouseWorldPos();
     }
@@ -18,7 +21,6 @@ public class Drag3D : MonoBehaviour
     void OnMouseDrag()
     {
         
-
         transform.position = GetMouseWorldPos() + offset;
     }
 
