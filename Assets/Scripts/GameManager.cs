@@ -126,8 +126,8 @@ public class GameManager : MonoBehaviour
         }
         for (int i = 0; i < 5; i++)
         {
-            int xPos = Random.Range(-20, 20);
-            int zPos = Random.Range(-20, 20);
+            int xPos = -10 + (i * 5);
+            int zPos = -10;
             Vector3 pos = new Vector3(xPos, 0, zPos);
             GameObject obj = Instantiate(turretPrefab, pos, Quaternion.identity);
 

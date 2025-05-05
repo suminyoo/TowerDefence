@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,9 +13,11 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI _EnemyAmount;  // UI에 텍스트 필드.
     public GameObject _panelMain;
     public GameObject _panelWinLose;
-    public GameObject _panelDeck;
+    public GameObject _panelInfo;
     public GameObject _panelBeforeStart;
 
+    public TextMeshProUGUI _dragTargetHP;
+    public TextMeshProUGUI _dragTargetATK;
     public TextMeshProUGUI _winnerIs;
     public Button _StartBtn;
 
@@ -39,29 +40,51 @@ public class UIManager : MonoBehaviour
             
         }
     }
+    void OnEnable()
+    {
+        SetTopViewCamera.OnTopViewEvent += ActivateDragMode;
+        SetTopViewCamera.OnSideViewEvent += DeactivateDragMode;
+        DragObject.OnObjectDragEvent += ActivateInfoPanel;
+        DragObject.OnObjectDragEndEvent += DeactivateInfoPanel;
+    }
+
+    void OnDisable()
+    {
+        SetTopViewCamera.OnTopViewEvent -= ActivateDragMode;
+        SetTopViewCamera.OnSideViewEvent -= DeactivateDragMode;
+        DragObject.OnObjectDragEvent -= ActivateInfoPanel;
+        DragObject.OnObjectDragEndEvent -= DeactivateInfoPanel;
+    }
 
     void Start()
     {
-        SetTopViewCamera.OnTopViewEvent += ActivateDeckMode;
-        SetTopViewCamera.OnSideViewEvent += DeactivateDeckMode;
-
-
         ShowStartBtn(false);
         _panelBeforeStart.gameObject.SetActive(false);
         _panelWinLose.gameObject.SetActive(false);
-        _panelDeck.gameObject.SetActive(false);
+        _panelInfo.gameObject.SetActive(false);
 
     }
 
-    void ActivateDeckMode()
+    void ActivateDragMode()
     {
-        _panelDeck.gameObject.SetActive(true);
         _StartBtn.gameObject.SetActive(false);
     }
-    void DeactivateDeckMode()
+    void DeactivateDragMode()
     {
-        _panelDeck.gameObject.SetActive(false);
         _StartBtn.gameObject.SetActive(true);
+    }
+
+    public void ActivateInfoPanel(BaseItem obj)
+    {
+        _dragTargetHP.text = obj.HP.ToString();
+        _dragTargetATK.text = obj.ATK.ToString();
+        _panelInfo.gameObject.SetActive(true);
+
+    }
+    public void DeactivateInfoPanel()
+    {
+        _panelInfo.gameObject.SetActive(false);
+
     }
 
     public void ShowWinLosePanel(string winner)

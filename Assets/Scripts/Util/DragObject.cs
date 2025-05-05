@@ -3,6 +3,10 @@ using System;
 
 public class DragObject : MonoBehaviour
 {
+    public static event Action<BaseItem> OnObjectDragEvent;
+    public static event Action OnObjectDragEndEvent;
+   
+
     private Camera cam;
     private bool isDragging = false;
     private float zCoord;
@@ -15,7 +19,8 @@ public class DragObject : MonoBehaviour
 
     void OnMouseDown()
     {
-
+        BaseItem target = GetComponent<BaseItem>();
+        OnObjectDragEvent?.Invoke(target);
         isDragging = true;
         zCoord = cam.WorldToScreenPoint(transform.position).z;
     }
@@ -40,6 +45,7 @@ public class DragObject : MonoBehaviour
 
     void OnMouseUp()
     {
+        OnObjectDragEndEvent?.Invoke();
         isDragging = false;
     }
 }
