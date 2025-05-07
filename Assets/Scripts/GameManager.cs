@@ -157,6 +157,7 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         mainUI.ShowStartBtn(false) ;
+        mainUI.ShowInGamePanel(true);
 
         for (int i = 0; i < enemies.Length; i++)
         {

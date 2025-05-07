@@ -20,6 +20,9 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI _dragTargetATK;
     public TextMeshProUGUI _winnerIs;
     public Button _StartBtn;
+    public Button turretViewBtn;
+
+
 
     private int totalTurret;
     public int TotalTurret
@@ -59,6 +62,7 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         ShowStartBtn(false);
+        ShowInGamePanel(false);
         _panelBeforeStart.gameObject.SetActive(false);
         _panelWinLose.gameObject.SetActive(false);
         _panelInfo.gameObject.SetActive(false);
@@ -97,9 +101,15 @@ public class UIManager : MonoBehaviour
     {
         _StartBtn.gameObject.SetActive(boo);
         _panelBeforeStart.gameObject.SetActive(boo);
-
-        //_startBtn.enabled = boo; //버튼 비활성화 할 수 있음
     }
+    
+    public void ShowInGamePanel(bool boo)
+    {
+        turretViewBtn.gameObject.SetActive(boo);
+
+
+    }
+
 
     public void Again()
     {

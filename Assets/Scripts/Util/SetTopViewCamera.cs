@@ -20,15 +20,13 @@ public class SetTopViewCamera : MonoBehaviour
     Vector3 oriPos;
     Quaternion oriRot;
 
-    public float moveSpeed = 5.1f;
+    //public float moveSpeed = 5.1f;
+    public float duration = 1.5f;
 
     private void Start()
     {
-
-
-
-        ViewButtonActive(true);
-
+        topViewButton.interactable = true;
+        sideViewButton.interactable = false;
 
         targetPos = targetObj.position;
         targetRot = targetObj.rotation;
@@ -42,56 +40,46 @@ public class SetTopViewCamera : MonoBehaviour
 
     IEnumerator ChangeCameraPosRotCor(Vector3 pos, Quaternion rot)
     {
-        ViewButtonActive(false);
+        Vector3 startPos = mainCamera.transform.position;
+        Quaternion startRot = mainCamera.transform.rotation;
+        float elapsed = 0f;
 
-        while (true)
+        while (elapsed < duration)
         {
-            mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position, pos, moveSpeed * Time.deltaTime);
-            mainCamera.transform.rotation = Quaternion.Lerp(mainCamera.transform.rotation, rot, moveSpeed * Time.deltaTime);
-
+            float t = elapsed / duration;
+            mainCamera.transform.position = Vector3.Lerp(startPos, pos, t);
+            mainCamera.transform.rotation = Quaternion.Slerp(startRot, rot, t);
+            elapsed += Time.deltaTime;
             yield return null; //1프레임동안 cpu한테 제어권을 줌
-
-            float diffePos = Mathf.Abs(mainCamera.transform.position.x - pos.x);
-            float diffeRot = Mathf.Abs(mainCamera.transform.rotation.x - rot.x);
-
-            if (diffePos < 0.001f && diffeRot < 0.001f) break;
+            
         }
+        mainCamera.transform.position = pos;
+        mainCamera.transform.rotation = rot;
 
-        ViewButtonActive(true);
-
-    }
-
-    void ViewButtonActive(bool boo)
-    {
-        topViewButton.interactable = boo;
-        sideViewButton.interactable = boo;
+        if(mainCamera.transform.position == oriPos) 
+            topViewButton.interactable = true;
+        else
+            sideViewButton.interactable = true;
 
     }
+
 
     public void TopView()
     {
         OnTopViewEvent?.Invoke();
+        topViewButton.interactable = false;
+        sideViewButton.interactable = false;
         StartCoroutine(ChangeCameraPosRotCor(targetPos, targetRot));
-        //StartCoroutine(ChangeCameraPosCor(targetPos));
-        //StartCoroutine(ChangeCameraRotCor(targetRot));
 
     }
     public void SideView()
     {
         OnSideViewEvent?.Invoke();
+        topViewButton.interactable = false;
+        sideViewButton.interactable = false;
         StartCoroutine(ChangeCameraPosRotCor(oriPos, oriRot));
-        //StartCoroutine(ChangeCameraPosCor(oriPos));
-        //StartCoroutine(ChangeCameraRotCor(oriRot));
+
 
     }
-    public void SimpleTopView()
-    {
-        mainCamera.transform.position = targetPos;
-        mainCamera.transform.rotation = targetRot;
-    }
-    public void SimpleSideView()
-    {
-        mainCamera.transform.position = oriPos;
-        mainCamera.transform.rotation = oriRot;
-    }
+
 }
