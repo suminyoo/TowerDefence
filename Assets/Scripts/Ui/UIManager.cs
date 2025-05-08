@@ -114,9 +114,8 @@ public class UIManager : MonoBehaviour
     public void Again()
     {
         ShowStartBtn(false);
-       
+        ShowInGamePanel(false);
         _panelWinLose.gameObject.SetActive(false);
-        
         OnGameAgainEvent?.Invoke();
     }
 
