@@ -1,5 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public enum ItemType
 {
@@ -70,13 +71,13 @@ public class BaseItem :MonoBehaviour
     }
     void OpenFire()
     {
-        GameObject[] targets = GameObject.FindGameObjectsWithTag(targetType.ToString());
-        if (targets.Length == 0) return;
+        //GameObject[] targets = GameObject.FindGameObjectsWithTag(targetType.ToString());
+        //if (targets.Length == 0) return;
 
 
-        NearTarget = NearestTarget.FindNearestTarget(gameObject, targets).transform;
+        //NearTarget = NearestTarget.FindNearestTarget(gameObject, targets).transform;
 
-        if (NearTarget==null) return;
+        //if (NearTarget==null) return;
 
         MuzzelFlash_ParticleSystem.Play();
         BulletShells_ParticleSystem.Play();
@@ -94,10 +95,14 @@ public class BaseItem :MonoBehaviour
 
     private void Update()
     {
-        if (NearTarget == null) return;
+        if (NearTarget == null) {
+            GameObject[] targets = GameObject.FindGameObjectsWithTag(targetType.ToString());
+            if (targets.Length == 0) return;
+            NearTarget = NearestTarget.FindNearestTarget(gameObject, targets).transform;
+            return; 
+        }
         gunbarrel.LookAt(NearTarget);
     }
-    
     public  virtual void CheckHP(int damage)
     {
         
